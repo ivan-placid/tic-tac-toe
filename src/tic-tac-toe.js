@@ -9,7 +9,12 @@ class TicTacToe {
     }
 
 
-// should return `x` or `o`
+    printMatrix() {
+        this.matrix.forEach(x => console.log(x))
+        console.log();
+    }
+
+
     getCurrentPlayerSymbol() {
         return this.CurrentPlayerSymbol
     }
@@ -20,29 +25,29 @@ class TicTacToe {
     }
 
 
-// should properly update class state (change current player, update marks storage etc.)
     nextTurn(rowIndex, columnIndex) {
-        this.matrix[rowIndex][columnIndex] = this.getCurrentPlayerSymbol()
-        this.switchSymbol()
+        if (!this.matrix[rowIndex][columnIndex]) {
+            this.matrix[rowIndex][columnIndex] = this.getCurrentPlayerSymbol()
+            this.switchSymbol()
+        }
+        
     }
 
-// should return true if game is finished (e.g. there is a winner or it is a draw)
     isFinished() {
-        return this.isDraw() || this.getWinner()
+        return (this.getWinner()!== null || this.isDraw()) || false
     }
 
-// should return winner symbol (`x` or `o`) or null if there is no winner yet
     getWinner() {
 
         let rs = [];
         //horizontal, vertical
-        for (var i=0; i < matrix.length; i++){
-            rs.push(matrix[i]);
-            rs.push(matrix[0][i]+matrix[1][i]+matrix[2][i]);
+        for (var i=0; i < this.matrix.length; i++){
+            rs.push(this.matrix[i][0] + this.matrix[i][1]+ this.matrix[i][2]);
+            rs.push(this.matrix[0][i]+this.matrix[1][i]+this.matrix[2][i]);
         }
         //diagonal
-        rs.push(matrix[0][0]+matrix[1][1]+matrix[2][2]);
-        rs.push(matrix[0][2]+matrix[1][1]+matrix[2][0]);
+        rs.push(this.matrix[0][0]+this.matrix[1][1]+this.matrix[2][2]);
+        rs.push(this.matrix[0][2]+this.matrix[1][1]+this.matrix[2][0]);
         
         for (var i=0; i < rs.length; i++){
             if (rs[i] === 'ooo'){
@@ -52,21 +57,21 @@ class TicTacToe {
             }
         }
 
+
+        return null
+
     }
 
-// should return true if there is no more fields to place a `x` or `o`
     noMoreTurns() {
         return !this.matrix
             .map(x => x.includes(null))
             .includes(true)
             }
 
-// should return true if there is no more turns and no winner
     isDraw() {
-        return this.noMoreTurns && !(this.getWinner === 'x' || this.getWinner === 'o')
+        return this.noMoreTurns() && !(this.getWinner())
     }
 
-// should return `matrix[row][col]` value (if any) or `null`
     getFieldValue(rowIndex, colIndex) {
         return this.matrix[rowIndex][colIndex]
     }
@@ -75,9 +80,4 @@ class TicTacToe {
 
 
 module.exports = TicTacToe;
-
-let game;
-game = new TicTacToe();
-
-game.nextTurn(0, 1)
 

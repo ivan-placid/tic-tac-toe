@@ -1,4 +1,5 @@
+node_modules
+
 ./scr/fast.js
 ./srs/simple.js
 
-node_modules
